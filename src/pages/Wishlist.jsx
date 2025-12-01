@@ -14,7 +14,6 @@ const Wishlist = () => {
     } catch (error) {
       wishlist = [id]
     }
-    
     const token = localStorage.getItem("token")
     try {
       const res = wishlist.map(id =>
@@ -41,13 +40,13 @@ const Wishlist = () => {
     } catch (error) {
       wishlist = [id]
     }
-    const index = wishlist.findIndex(id => String(id) == String(delet))
+    const index = wishlist.findIndex(id => id == delet)
     if (index != -1) {
       wishlist.splice(index, 1)
       if (wishlist.length) localStorage.setItem("id", JSON.stringify(wishlist))
       else localStorage.removeItem("id")
     }
-    setData(prev => prev.filter(product => String(product.id) != String(delet)))
+    setData(prev => prev.filter(product => product.id != delet))
     messageApi.success("Deleted successfully")
   }
   async function addToCart(id) {
