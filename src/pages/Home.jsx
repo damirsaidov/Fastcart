@@ -2,13 +2,15 @@ import { Button, Carousel, message, Space } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { axiosRequest } from "../ultis/axiosReques";
 const Home = () => {
+  const API = import.meta.env.VITE_API_KEY
   const [data, setData] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
   const [category, setCategory] = useState([]);
   async function getCategory() {
     try {
-      let { data } = await axios(`http://37.27.29.18:8002/Brand/get-brands`, {
+      let { data } = await axiosRequest.get(`${API}/Brand/get-brands`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setCategory(data.data);
@@ -19,8 +21,8 @@ const Home = () => {
   }
   async function getData() {
     try {
-      let { data } = await axios(
-        `http://37.27.29.18:8002/Product/get-products`,
+      let { data } = await axiosRequest.get(
+        `${API}/Product/get-products`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -46,8 +48,8 @@ const Home = () => {
   }
   async function addToCart(id) {
     try {
-      await axios.post(
-        `http://37.27.29.18:8002/Cart/add-product-to-cart?id=${id}`,
+      await axiosRequest.post(
+        `${API}/Cart/add-product-to-cart?id=${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -211,10 +213,10 @@ const Home = () => {
         </div>
       </div>
       <div className="products-grid">
-        {data.slice(2).map((e) => (
+        {data.slice(4).map((e) => (
           <div key={e.id} className="product-card ">
             <div className="product-image">
-              <img src={`http://37.27.29.18:8002/images/${e.image}`} />
+              <img src={`${API}/images/${e.image}`} />
             </div>
             <div className="product-info">
               <h3 className="product-name">{e.productName}</h3>
@@ -309,11 +311,11 @@ const Home = () => {
         </svg>
         <h1 className="lar">Best Selling Products</h1>
         <div className="products-grid">
-          {data.slice(2).map((e) => (
+          {data.slice(4).map((e) => (
             <div key={e.id} className="product-card ">
               <div className="product-image">
                 <img
-                  src={`http://37.27.29.18:8002/images/${e.image}`}
+                  src={`${API}/images/${e.image}`}
                   alt={e.productName}
                 />
               </div>
@@ -370,7 +372,7 @@ const Home = () => {
             <div key={e.id} className="product-card ">
               <div className="product-image">
                 <img
-                  src={`http://37.27.29.18:8002/images/${e.image}`}
+                  src={`${API}/images/${e.image}`}
                   alt={e.productName}
                 />
               </div>
@@ -403,11 +405,11 @@ const Home = () => {
               </div>
             </div>
           ))}
-          {data.slice(4).map((e) => (
+          {data.slice(10).map((e) => (
             <div key={e.id} className="product-card ">
               <div className="product-image">
                 <img
-                  src={`http://37.27.29.18:8002/images/${e.image}`}
+                  src={`${API}/images/${e.image}`}
                   alt={e.productName}
                 />
               </div>

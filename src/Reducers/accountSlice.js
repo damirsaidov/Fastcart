@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { axiosRequest } from "../ultis/axiosReques";
 export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get(
+    const res = await axiosRequest.get(
       "http://37.27.29.18:8002/Cart/get-products-from-cart",
       {
         headers: { Authorization: `Bearer ${token}` },

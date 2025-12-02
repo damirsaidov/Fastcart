@@ -2,6 +2,7 @@ import { Button, message, Space } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../../src/index.css";
+import { axiosRequest } from "../ultis/axiosReques";
 const Wishlist = () => {
   const [data, setData] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
@@ -17,7 +18,7 @@ const Wishlist = () => {
     const token = localStorage.getItem("token");
     try {
       const res = wishlist.map((id) =>
-        axios.get(
+        axiosRequest.get(
           `http://37.27.29.18:8002/Product/get-product-by-id?id=${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -54,7 +55,7 @@ const Wishlist = () => {
   };
   async function addToCart(id) {
     try {
-      await axios.post(
+      await axiosRequest.post(
         `http://37.27.29.18:8002/Cart/add-product-to-cart?id=${id}`,
         {},
         {

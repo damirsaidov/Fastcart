@@ -1,18 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { axiosRequest } from "../ultis/axiosReques";
+const API = import.meta.env.VITE_API_KEY;
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (user) => {
-    const { data } = await axios.post(
-      "http://37.27.29.18:8002/Account/register",
+    const { data } = await axiosRequest.post(
+      `${API}/Account/register`,
       user
     );
     return data;
   }
 );
 export const loginUser = createAsyncThunk("auth/loginUser", async (user) => {
-  const { data } = await axios.post(
-    "http://37.27.29.18:8002/Account/login",
+  const { data } = await axiosRequest.post(
+    `${API}/Account/login`,
     user
   );
   localStorage.setItem("token", data.data);

@@ -1,27 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { axiosRequest } from "../ultis/axiosReques";
 const API = "http://37.27.29.18:8002/Cart";
 const auth = {
   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 };
 export const getCart = createAsyncThunk("cart/getCart", async () => {
-  const { data } = await axios(`${API}/get-products-from-cart`, {
+  const { data } = await axiosRequest.get(`${API}/get-products-from-cart`, {
     headers: auth.headers,
   });
   return data.data[0];
 });
 
 export const deleteCart = createAsyncThunk("cart/deleteCart", async (id) => {
-  await axios.delete(`${API}/delete-product-from-cart?id=${id}`, {
+  await axiosRequest.delete(`${API}/delete-product-from-cart?id=${id}`, {
     headers: auth.headers,
   });
   return id;
 });
 export const deleteAll = createAsyncThunk("cart/deleteAll", async () => {
-  await axios.delete(`${API}/clear-cart`, { headers: auth.headers });
+  await axiosRequest.delete(`${API}/clear-cart`, { headers: auth.headers });
 });
 export const increaseProduct = createAsyncThunk("cart/increase", async (id) => {
-  await axios.put(
+  await axiosRequest.put(
     `${API}/increase-product-in-cart?id=${id}`,
     {},
     { headers: auth.headers }
@@ -29,7 +30,7 @@ export const increaseProduct = createAsyncThunk("cart/increase", async (id) => {
   return id;
 });
 export const reduceProduct = createAsyncThunk("cart/reduce", async (id) => {
-  await axios.put(
+  await axiosRequest.put(
     `${API}/reduce-product-in-cart?id=${id}`,
     {},
     { headers: auth.headers }

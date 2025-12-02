@@ -2,45 +2,17 @@ import { Button, message, Space } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { axiosRequest } from "../ultis/axiosReques";
 const AboutID = () => {
+  const API = import.meta.env.VITE_API_KEY
   const [data, setData] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const { id } = useParams();
   const navigate = useNavigate();
-  function addToWish(id) {
-    const idx = localStorage.getItem("id");
-    let wishlist = [];
-    if (idx) {
-      try {
-        const idWish = JSON.parse(idx);
-        wishlist = Array.isArray(idWish) ? idWish : [idWish];
-      } catch {
-        wishlist = [idx];
-      }
-    }
-    wishlist.push(id);
-    localStorage.setItem("id", JSON.stringify(wishlist));
-    messageApi.success("Added to wishlist");
-  }
-  async function addToCart(id) {
-    try {
-      await axios.post(
-        `http://37.27.29.18:8002/Cart/add-product-to-cart?id=${id}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      messageApi.success("Added to cart");
-    } catch (error) {
-      messageApi.error("Product is already in cart!");
-      console.error(error);
-    }
-  }
   async function getData(id) {
     try {
-      let { data } = await axios(
-        `http://37.27.29.18:8002/Product/get-product-by-id?id=${id}`
+      let { data } = await axiosRequest.get(
+        `${API}/Product/get-product-by-id?id=${id}`
       );
       setData(data);
     } catch (error) {
@@ -59,32 +31,32 @@ const AboutID = () => {
             className="dns"
               width="170px"
               height={"138px"}
-              src={`http://37.27.29.18:8002/images/${data?.data?.images[0]?.images}`}
+              src={`${API}/images/${data?.data?.images[0]?.images}`}
             />
             <img
             className="dns"
               width="170px"
               height={"138px"}
-              src={`http://37.27.29.18:8002/images/${data?.data?.images[0]?.images}`}
+              src={`${API}/images/${data?.data?.images[0]?.images}`}
             />
             <img
             className="dns"
               width="170px"
               height={"138px"}
-              src={`http://37.27.29.18:8002/images/${data?.data?.images[0]?.images}`}
+              src={`${API}/images/${data?.data?.images[0]?.images}`}
             />
             <img
             className="dns"
               width="170px"
               height={"138px"}
-              src={`http://37.27.29.18:8002/images/${data?.data?.images[0]?.images}`}
+              src={`${API}/images/${data?.data?.images[0]?.images}`}
             />
           </Space>
           <img
             width={"500px"}
             style={{ objectFit: "cover" }}
             height={"600px"}
-            src={`http://37.27.29.18:8002/images/${data?.data?.images[0]?.images}`}
+            src={`${API}/images/${data?.data?.images[0]?.images}`}
           />
         <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
           <h1 style={{ fontSize: "36px", font: "Inter" }}>

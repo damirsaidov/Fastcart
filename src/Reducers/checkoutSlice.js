@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { axiosRequest } from "../ultis/axiosReques";
+  const API = import.meta.env.VITE_API_KEY
 export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(
-      "http://37.27.29.18:8002/Cart/get-products-from-cart",
+    const response = await axiosRequest.get(
+      `${API}/Cart/get-products-from-cart`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
