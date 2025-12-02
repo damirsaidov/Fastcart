@@ -18,28 +18,6 @@ export const loginUser = createAsyncThunk("auth/loginUser", async (user) => {
   localStorage.setItem("token", data.data);
   return data.data;
 });
-export const increaseProduct = createAsyncThunk(
-  "auth/increaseProduct",
-  async (id) => {
-    await axios.put(
-      `http://37.27.29.18:8002/Cart/increase-product-in-cart?id=${id}`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      }
-    );
-  }
-);
-export const reduceProduct = createAsyncThunk(
-  "auth/reduceProduct",
-  async (id) => {
-    await axios.put(
-      `http://37.27.29.18:8002/Cart/reduce-product-in-cart?id=${id}`,
-      {},
-      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-    );
-  }
-);
 const authSlice = createSlice({
   name: "auth",
   initialState: {

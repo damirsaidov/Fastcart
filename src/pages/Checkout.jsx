@@ -1,58 +1,55 @@
 import { Button, Checkbox, Input, Space } from "antd";
-import axios from "axios";
-import React, { useEffect, useEffectEvent, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCart } from "../Reducers/checkoutSlice";
 const Checkout = () => {
-  const [cart, setCart] = useState([]);
-  const [total, setTotal] = useState({});
-  async function getCart() {
-    try {
-      let { data } = await axios(
-        "http://37.27.29.18:8002/Cart/get-products-from-cart",
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      setCart(data.data[0].productsInCart);
-      setTotal({total: data.data[0].totalPrice, skidka: data.data[0].totalDiscountPrice});
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const dispatch = useDispatch();
+  const { products: cart, total, skidka } = useSelector((state) => state.checkout);
   useEffect(() => {
-    getCart()
-  },[])
+    dispatch(fetchCart());
+  }, [dispatch]);
   return (
     <>
-    <div
-      style={{
-        maxWidth: "1400px",
-        margin:"auto",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <div style={{ boxShadow: "0 0 5px 0", width:"500px", borderRadius:"8px", height:"540px", padding:"12px" }}>
-        <h1 className="lar pl-4">Billing details</h1>
-        <form className="Log">
-          <input type="text" placeholder="First name" />
-          <input type="text" placeholder="Last name" />
-          <input type="text" placeholder="Street adress" />
-          <input type="text" placeholder="Apartment, floor, etc. (optional)" />
-          <input type="text" placeholder="Town/City" />
-          <input type="text" placeholder="Phone number" />
-          <input type="text" placeholder="Email adress" />
-          <h1>
-            {" "}
-            <Checkbox style={{ color: "red" }} /> Save this information for
-            faster check-out next time
-          </h1>
-        </form>
-      </div>
-      <div>
-        {cart?.map((e) => {
-          return (
+      <div
+        style={{
+          maxWidth: "1400px",
+          margin: "auto",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            boxShadow: "0 0 5px 0",
+            width: "500px",
+            borderRadius: "8px",
+            height: "540px",
+            padding: "12px",
+          }}
+        >
+          <h1 className="lar pl-4">Billing details</h1>
+          <form className="Log">
+            <input type="text" placeholder="First name" />
+            <input type="text" placeholder="Last name" />
+            <input type="text" placeholder="Street adress" />
+            <input
+              type="text"
+              placeholder="Apartment, floor, etc. (optional)"
+            />
+            <input type="text" placeholder="Town/City" />
+            <input type="text" placeholder="Phone number" />
+            <input type="text" placeholder="Email adress" />
+            <h1>
+              <Checkbox style={{ color: "red" }} />
+              Save this information for faster check-out next time
+            </h1>
+          </form>
+        </div>
+        <div>
+          {cart?.map((e) => (
             <div
+              key={e.product.id}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -65,37 +62,42 @@ const Checkout = () => {
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
                 <img
-                width="54px"
-                style={{objectFit:"cover"}}
+                  width="54px"
+                  style={{ objectFit: "cover" }}
                   src={`http://37.27.29.18:8002/images/${e.product.image}`}
+                  alt={e.product.productName}
                 />
-                <h1>{e.product.productName} <span>x{e.quantity}</span>
+                <h1>
+                  {e.product.productName} <span>x{e.quantity}</span>
                 </h1>
               </div>
               <h1>${e.product.price}</h1>
             </div>
-          );
-
-})}
-        <div className="flex justify-between">
-            <h1 style={{fontSize:"28px", color:"#000000"}} >SubTotal: </h1>
-            <h1 style={{fontSize:"28px", color:"#000000"}} className=" line-through">$ {total.total}</h1>
-        </div>
-        <div className="flex justify-between">
-            <h1 style={{fontSize:"26px", color:"#000000"}} >Shipping: </h1>
-            <h1 style={{fontSize:"26px", color:"#000000"}}>free</h1>
-        </div>
-        <hr />
-        <div className="flex justify-between">
+          ))}
+          <div className="flex justify-between">
+            <h1 style={{ fontSize: "28px", color: "#000000" }}>SubTotal: </h1>
+            <h1
+              style={{ fontSize: "28px", color: "#000000" }}
+              className="line-through"
+            >
+              $ {total}
+            </h1>
+          </div>
+          <div className="flex justify-between">
+            <h1 style={{ fontSize: "26px", color: "#000000" }}>Shipping: </h1>
+            <h1 style={{ fontSize: "26px", color: "#000000" }}>free</h1>
+          </div>
+          <hr />
+          <div className="flex justify-between">
             <h1 className="lar">Total: </h1>
-            <h1 className="lar">$ {total.skidka}</h1>
+            <h1 className="lar">$ {skidka}</h1>
+          </div>
+          <Space style={{ marginTop: "16px" }}>
+            <Input placeholder="Coupon code" />
+            <Button danger>Apply</Button>
+          </Space>
         </div>
-        <Space>
-        <Input  placeholder="Coupon code" />
-        <Button danger>Apply</Button>
-        </Space>
       </div>
-    </div>
     </>
   );
 };
