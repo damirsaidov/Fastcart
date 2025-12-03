@@ -1,17 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { get } from "../Reducers/getFilter";
+import { get, getsubCategory } from "../Reducers/getFilter";
 import { Button, Space } from "antd";
 import { API } from "../ultis/axiosReques";
 import { Link } from "react-router-dom";
 const Products = () => {
-  const { category, subCategory, brand, products } = useSelector(
+  const [data, setData] = useState({})
+  const { category, subCategor, brand, products, subcat } = useSelector(
     (state) => state.get
   );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(get());
   }, []);
+  useEffect(() => {
+    setData(products)
+  }, [])
+  const categBu = (id) => {
+    try {
+      dispatch(getsubCategory(id))
+    } catch (error) {
+      console.error(error);
+    } finally{
+      setData(subcat)
+    }
+  }
   return (
     <>
       <div
@@ -49,13 +62,13 @@ const Products = () => {
             ))}
             <hr />
             <h1 className="lar">SubCategory</h1>
-            {subCategory?.map((e) => (
-              <h1>{e.subCategoryName}</h1>
+            {subCategor?.map((e) => (
+              <h1 onClick={() => categBu(e.id)}>{e.subCategoryName}</h1>
             ))}
           </Space>
         </div>
         <div className="products-grid">
-          {products?.products?.map((e) => {
+          {data?.products?.map((e) => {
             return (
               <div key={e.id} className="product-card ">
                 <div className="product-image">
