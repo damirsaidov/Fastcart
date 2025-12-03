@@ -68,7 +68,7 @@ const Products = () => {
           </Space>
         </div>
         <div className="products-grid">
-          {data?.products?.map((e) => {
+          {products?.products?.map((e) => {
             return (
               <div key={e.id} className="product-card ">
                 <div className="product-image">
