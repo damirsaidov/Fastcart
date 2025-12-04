@@ -51,6 +51,7 @@ const Navbar = () => {
             <Link to="/about">About</Link>
             <Link to="/home">Home</Link>
             <Link to="/products">Products</Link>
+          <Link to="/account">Account</Link>
           </Space>
         </div>
         <div>
@@ -61,7 +62,9 @@ const Navbar = () => {
           <Link to="/cart">
             <img width="32px" src="/image copy 3.png" alt="Cart" />
           </Link>
+          <Link to={"/account"}>
           <img width="32px" src="/image copy 4.png" alt="" />
+        </Link>
         </div>
       </div>
       <div style={{ paddingTop: "30px", paddingBottom: "30px" }}>
