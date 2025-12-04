@@ -64,7 +64,7 @@ const Checkout = () => {
                 <img
                   width="54px"
                   style={{ objectFit: "cover" }}
-                  src={`http://37.27.29.18:8002/images/${e.product.image}`}
+                  src={`https://store-api.softclub.tj/images/${e.product.image}`}
                   alt={e.product.productName}
                 />
                 <h1>

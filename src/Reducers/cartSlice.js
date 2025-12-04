@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { axiosRequest } from "../ultis/axiosReques";
-const API = "http://37.27.29.18:8002/Cart";
+const API = " https://store-api.softclub.tj/Cart";
 const auth = {
   headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 };

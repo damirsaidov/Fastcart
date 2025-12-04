@@ -5,7 +5,7 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   try {
     const token = localStorage.getItem("token");
     const res = await axiosRequest.get(
-      "http://37.27.29.18:8002/Cart/get-products-from-cart",
+      " https://store-api.softclub.tj/Cart/get-products-from-cart",
       {
         headers: { Authorization: `Bearer ${token}` },
       }

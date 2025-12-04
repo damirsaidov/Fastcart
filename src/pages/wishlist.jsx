@@ -18,7 +18,7 @@ const Wishlist = () => {
     try {
       const res = wishlist?.map((id) =>
         axiosRequest.get(
-          `http://37.27.29.18:8002/Product/get-product-by-id?id=${id}`,
+          ` https://store-api.softclub.tj/Product/get-product-by-id?id=${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -55,7 +55,7 @@ const Wishlist = () => {
   async function addToCart(id) {
     try {
       await axiosRequest.post(
-        `http://37.27.29.18:8002/Cart/add-product-to-cart?id=${id}`,
+        ` https://store-api.softclub.tj/Cart/add-product-to-cart?id=${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -77,7 +77,7 @@ const Wishlist = () => {
         <div key={e.id} className="product-card ">
           <div className="product-image">
             <img
-              src={`http://37.27.29.18:8002/images/${e?.images?.at(0).images}`}
+              src={` https://store-api.softclub.tj/images/${e?.images?.at(0).images}`}
             />
           </div>
           <div className="product-info">
